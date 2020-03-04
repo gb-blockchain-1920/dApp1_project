@@ -11,6 +11,7 @@ import {
 
 import Register from "./Components/Register";
 import Login from "./Components/Login";
+import IdentityForm from "./Components/IdentityForm";
 
 const { SubMenu } = Menu;
 
@@ -73,7 +74,9 @@ function App() {
           </SubMenu>
         </Menu>
         <Switch>
-          <Route path="/me">me</Route>
+          <Route path="/me">
+            <IdentityForm />
+          </Route>
           <Route path="/share">share</Route>
           <Route path="/login">
             <Login />
