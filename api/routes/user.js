@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 /* GET users listing. */
-router.get("/", function(req, res) {
+router.get("/", async function(req, res) {
   const { FileSystemWallet, Gateway } = require("fabric-network"); //Creates a new gateway and use it to connect to the network
   const path = require("path");
   const ccpPath = path.resolve(
