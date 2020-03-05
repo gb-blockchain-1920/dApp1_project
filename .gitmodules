@@ -1,0 +1,3 @@
+[submodule "chaincode"]
+	path = chaincode
+	url = https://github.com/deepcrazy/eKYC_chaincode
