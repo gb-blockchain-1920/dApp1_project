@@ -1,9 +1,8 @@
 var express = require("express");
 var jwt = require("jsonwebtoken");
-var crypto = require('crypto');
 var env = require("../scripts/env");
+var functions = require("../scripts/functions");
 var router = express.Router();
-var shasum = crypto.createHash('sha1');
 
 //login end point for getting token
 router.post("/", async function(req, res) {
@@ -19,12 +18,22 @@ router.post("/", async function(req, res) {
 
   try {
     //hash password for security
-    var shasum = crypto.createHash('sha1');
-    req.body.password = shasum.digest("base64");
+    req.body.password = functions.hashString(req.body.password);
     console.log(req.body.password);
 
     //create token
-    const token = await jwt.sign(req.body, env.jwtKey, { expiresIn: "10" });
+    const token = await jwt.sign(req.body, env.jwtKey, { expiresIn: "10hr" });
+
+    //if it's a company, save it to the list (create id using encode/decode to be able to get username later)
+    if (req.body.type === "company") {
+      const companyId = functions.encodeId(
+        JSON.stringify({
+          username: req.body.username,
+          password: req.body.password
+        })
+      );
+      functions.invoke("mychannel", "eKYC", ["saveCompany", companyId]);
+    }
     res.send(token);
   } catch (e) {
     res.sendStatus(500);
@@ -33,15 +42,11 @@ router.post("/", async function(req, res) {
 
 router.get("/", async function(req, res) {
   try {
-    // console.log(req.headers.authorization);
-    const token = req.headers.authorization.split(" ")[1]
-    const decoded = await jwt.verify(token, env.jwtKey) //checks validity of token (throws error if not valid)
-    // console.log(jwt.decode(token));
-
-    res.send(true)
+    const decoded = await functions.decodeToken(req.headers.authorization); //checks validity of token (throws error if not valid)
+    res.send(true);
   } catch (e) {
     console.log(e);
-    res.send(false)
+    res.send(false);
   }
 });
 
