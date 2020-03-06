@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Row, Col, Form, Input, Button, Checkbox } from "antd";
+import { logIn } from "../Utils/ApiInterface";
 const { Title, Paragraph } = Typography;
 
 const layout = {
@@ -12,10 +13,7 @@ const tailLayout = {
 
 export default function Login() {
   const [password, setPassword] = React.useState("");
-
-  const savePassword = password => localStorage.setItem("passphrase", password);
-
-  const onChange = e => setPassword(e.target.value);
+  const [email, setEmail] = React.useState("");
 
   return (
     <Row style={{ padding: "20px" }}>
@@ -28,12 +26,26 @@ export default function Login() {
           //   onFinishFailed={onFinishFailed}
         >
           <Form.Item
+            label="Email"
+            name="email"
+            value={email}
+            rules={[
+              {
+                type: "email",
+                required: true,
+                message: "Please input your email!"
+              }
+            ]}
+          >
+            <Input onChange={e => setEmail(e.target.value)} />
+          </Form.Item>
+          <Form.Item
             label="Password"
             name="password"
             value={password}
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password onChange={onChange} />
+            <Input.Password onChange={e => setPassword(e.target.value)} />
           </Form.Item>
 
           <Form.Item {...tailLayout} name="remember" valuePropName="checked">
@@ -51,7 +63,7 @@ export default function Login() {
         {" "}
         <Typography style={{ padding: "20px" }}>
           <Title>Login</Title>
-          <Paragraph>Please provide your private key to log in.</Paragraph>
+          <Paragraph>You can log in using your email and password.</Paragraph>
         </Typography>
       </Col>
     </Row>

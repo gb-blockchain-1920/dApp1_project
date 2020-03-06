@@ -1,54 +1,33 @@
 import React from "react";
-import { Typography, Row, Col, Form, Input, Button } from "antd";
-const { Title, Paragraph } = Typography;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 }
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 }
-};
+import { Row, Col, Typography } from "antd";
+import RegistrationForm from "./RegistrationForm";
+const { Title, Paragraph, Text } = Typography;
 
 export default function Register() {
-  const [password, setPassword] = React.useState("");
-
-  const savePassword = password => localStorage.setItem("passphrase", password);
-
-  const onChange = e => setPassword(e.target.value);
-
   return (
-    <Row style={{ padding: "20px" }}>
-      <Col span={12}>
-        <Form
-          {...layout}
-          name="basic"
-          initialValues={{ remember: true }}
-          //   onFinish={onFinish}
-          //   onFinishFailed={onFinishFailed}
-        >
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password onChange={onChange} />
-          </Form.Item>
-
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+    <Row gutter={10} style={{ padding: "20px" }}>
+      <Col span={10}>
+        <RegistrationForm />
       </Col>
-      <Col span={12}>
+      <Col span={10}>
         {" "}
-        <Typography style={{ padding: "20px" }}>
+        <Typography>
           <Title>Registration</Title>
           <Paragraph>
-            For registration you only need a password. Consider this your
-            private key, do not give it to anyone and do not forget it!
+            You can register to use the KYC servide here. You can either
+            register as a company or a person, the differences between them are
+            outlined below.
+          </Paragraph>
+          <Title level={3}>Person</Title>
+          <Paragraph>
+            Person accounts can fill out their KYC form and store it on the
+            blockchain. They can then approve companies to access this data,
+            creating a seamless customer identity verification experience.
+          </Paragraph>
+          <Title level={3}>Company</Title>
+          <Paragraph>
+            Company accounts can request and recieve user identity forms in
+            order to speed up their identity verification process..
           </Paragraph>
         </Typography>
       </Col>
