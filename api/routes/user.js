@@ -13,15 +13,15 @@ router.get("/", async function(req, res) {
       })
     );
 
-    const data = functions.query("mychannel", "eKYC", ["getData", userId]);
-    res.json(JSON.parse(data.toString()));
+    const data = await functions.query("mychannel", "eKYC", ["getData", userId]);
+    res.json(data);
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.sendStatus(400);
   }
 });
 
-router.post("/", async function(req, raes) {
+router.post("/", async function(req, res) {
   try {
     const decoded = await functions.decodeToken(req.headers.authorization); //checks validity of token (throws error if not valid)
     const userId = functions.hashString(
@@ -32,7 +32,7 @@ router.post("/", async function(req, raes) {
     );
     //future: add data checks
 
-    functions.invoke("mychannel", "eKYC", ["getData", userId, res.body]);
+    await functions.invoke("mychannel", "eKYC", ["inputData", userId, JSON.stringify(req.body)]);
     res.sendStatus(200);
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);

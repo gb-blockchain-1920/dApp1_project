@@ -1,4 +1,5 @@
 var express = require("express");
+var functions = require("../scripts/functions");
 var router = express.Router();
 
 /* GET users listing. */

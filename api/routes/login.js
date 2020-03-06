@@ -32,10 +32,11 @@ router.post("/", async function(req, res) {
           password: req.body.password
         })
       );
-      functions.invoke("mychannel", "eKYC", ["saveCompany", companyId]);
+      await functions.invoke("mychannel", "eKYC", ["saveCompany", companyId]);
     }
     res.send(token);
   } catch (e) {
+    console.log(e);
     res.sendStatus(500);
   }
 });

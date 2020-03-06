@@ -12,7 +12,7 @@ module.exports.decodeToken = authHeader => {
 
 module.exports.encodeId = payload => {
   var cipher = crypto.createCipher("aes192", env.idKey);
-  let output = cipher.update(JSON.stringify(payload), "utf8", "base64");
+  let output = cipher.update(JSON.stringify(payload), "utf8", "hex");
   return output + cipher.final("hex");
 };
 
