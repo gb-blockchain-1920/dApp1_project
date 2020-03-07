@@ -52,7 +52,7 @@ router.get("/", async function(req, res) {
 
     const parsedCompanies = companies.list.map(id => {
       const decoded = functions.decodeId(id);
-      return {username: JSON.parse(JSON.parse(decoded)), id};
+      return {username: JSON.parse(JSON.parse(decoded)).username, id};
     });
 
     res.json({ approved: parsedRelations, all: parsedCompanies });
