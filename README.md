@@ -3,9 +3,9 @@ This is a simple project as a first exposure to Hyperledger Fabric.
 
 ## eKYC - a Hyperledger Fabric project
 
-Luka Buzaladze  
-Deepanshu Gupta  
-Aaron Lu
+Luka Buzaladze (React - Frontend)
+Deepanshu Gupta (Hyperledger Fabric - Backend)  
+Aaron Lu (Express - API)  
 
 ### Goal
 
