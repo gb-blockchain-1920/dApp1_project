@@ -141,3 +141,4 @@ This will start the express server at `http://localhost:3000`. If you are in GCP
 - [Hyperledger Fabric - v1.4](https://hyperledger-fabric.readthedocs.io/en/release-1.4/)
 - [Hyperledger Fabric - FabCar](https://hyperledger-fabric.readthedocs.io/en/release-1.4/write_first_app.html)
 - [Node.js Crypto](https://nodejs.org/api/crypto.html)
+- [Persistent Background App on VM](https://superuser.com/questions/1110574/keeping-a-java-app-running-when-ssh-is-closed-on-google-cloud)
