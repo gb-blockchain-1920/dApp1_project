@@ -43,8 +43,9 @@ router.get("/", async function(req, res) {
     const companies = await functions.query("mychannel", "eKYC", ["getCompanies"]);
 
     const parsedRelations = relations.map(id => {
-      const trimLength = (id.length - 192)/2
-      id = id.length > 192 ? id.slice(trimLength, id.length-trimLength) : id;
+      // const trimLength = (id.length - 192)/2
+      // id = id.length > 192 ? id.slice(trimLength, id.length-trimLength) : id;
+      id = id.replace("\'","")
       let username = functions.decodeId(id);
       return JSON.parse(JSON.parse(username)).username;
     });
