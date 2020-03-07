@@ -21,12 +21,19 @@ router.get("/", async function(req, res) {
     );
 
     //get array of user ids
-    const relations = await functions.query("mychannel", "eKYC", ["getRelations", companyId]);
-
-    //get array of user information
-    const userData = parsedRelations.map(id => functions.query("mychannel", "eKYC", ["getData", id]))
-
-    res.json(userData);
+    const relations = functions.query("mychannel", "eKYC", ["getRelations", companyId]).then(
+      output => {
+        let userData = []; //get user data
+        output.forEach(id => {
+          const data =  await functions.query("mychannel", "eKYC", ["getData", id.toString()])
+          const temp = JSON.parse(data.userDetails)
+          const userDetails = Object.keys(temp)
+          const parsedDetails = JSON.parse(userDetails[0])
+          userData.push(parsedDetails)
+        })
+        return res.json(userData)
+      }
+    );
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
