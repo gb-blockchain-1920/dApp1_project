@@ -1,7 +1,7 @@
 const axios = require("axios");
 const apiUrl = "";
 
-exports.registerUser = (email, password, type) => {
+export const registerUser = (email, password, type) => {
   return new Promise(async (res, rej) => {
     axios.post(apiUrl + "/register", {
       email,
@@ -11,7 +11,7 @@ exports.registerUser = (email, password, type) => {
   });
 };
 
-exports.logIn = (email, password) => {
+export const logIn = (email, password) => {
   return new Promise(async (res, rej) => {
     axios.post(apiUrl + "/login", {
       email,
