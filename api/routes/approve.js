@@ -39,19 +39,19 @@ router.get("/", async function(req, res) {
       })
     );
 
-    const relations = functions.query(["getRelations", "user", userId]);
-    const companies = functions.query(["getCompanies"]);
+    const relations = await functions.query("mychannel", "eKYC", ["getRelations", userId]);
+    const companies = await functions.query("mychannel", "eKYC", ["getCompanies"]);
 
     const parsedRelations = relations.map(id => {
+      const trimLength = (id.length - 192)/2
+      id = id.length > 192 ? id.slice(trimLength, id.length-trimLength) : id;
       let username = functions.decodeId(id);
-      username = JSON.parse(username);
-      return username.username;
+      return JSON.parse(JSON.parse(username)).username;
     });
 
-    const parsedCompanies = companies.map(id => {
-      let username = functions.decodeId(id);
-      username = JSON.parse(username);
-      return username.username;
+    const parsedCompanies = companies.list.map(id => {
+      const decoded = functions.decodeId(id);
+      return {username: JSON.parse(JSON.parse(decoded)), id};
     });
 
     res.json({ approved: parsedRelations, all: parsedCompanies });

@@ -15,16 +15,16 @@ router.get("/", async function(req, res) {
     //get id using encode functionality
     const companyId = functions.encodeId(
       JSON.stringify({
-        username: req.body.username,
-        password: req.body.password
+        username: decoded.username,
+        password: decoded.password
       })
     );
 
     //get array of user ids
-    const relations = functions.query(["getRelations", "company", companyId]);
+    const relations = await functions.query("mychannel", "eKYC", ["getRelations", companyId]);
 
     //get array of user information
-    const userData = relations.map(id => functions.query("mychannel", "eKYC", ["getData", id]))
+    const userData = parsedRelations.map(id => functions.query("mychannel", "eKYC", ["getData", id]))
 
     res.json(userData);
   } catch (e) {

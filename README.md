@@ -121,7 +121,7 @@ git clone https://github.com/aalu1418/dApp1_project
 ```
 Copy the `connection-org1.json` from the `fabric-samples/first-network` folder to the `api\config` folder
 ```
-cd dApp1_project/api
+cd ~/dApp1_project/api
 mkdir config
 cp ~/fabric-samples/first-network/connection-org1.json ~/dApp1_project/api/config/connection-org1.json
 ```
