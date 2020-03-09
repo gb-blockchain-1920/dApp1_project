@@ -13,11 +13,14 @@ const tailLayout = {
 
 export default function RegistrationForm() {
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [type, setType] = React.useState("person");
+  const [username, setUsername] = React.useState("");
+  const [type, setType] = React.useState("user");
 
   const submit = async () => {
-    const response = await registerUser(email, password, type);
+    const token = await registerUser(username, password, type);
+    localStorage.setItem("token", token);
+    localStorage.setItem("type", type);
+    window.location.replace("/");
   };
 
   return (
@@ -29,13 +32,11 @@ export default function RegistrationForm() {
       //   onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          { type: "email", required: true, message: "Please input your email!" }
-        ]}
+        label="Username"
+        name="username"
+        rules={[{ required: true, message: "Please input your username!" }]}
       >
-        <Input onChange={e => setEmail(e.target.value)} />
+        <Input onChange={e => setUsername(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -47,9 +48,9 @@ export default function RegistrationForm() {
       </Form.Item>
 
       <Form.Item label="Type" name="type">
-        <Select defaultValue="person" onChange={setType}>
-          <Option value="person">Person</Option>
-          <Option value="company">Company</Option>
+        <Select defaultValue="user" onChange={setType}>
+          <Option value="user">user</Option>
+          <Option value="company">company</Option>
         </Select>
       </Form.Item>
 

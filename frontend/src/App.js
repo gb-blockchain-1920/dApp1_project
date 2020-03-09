@@ -6,12 +6,15 @@ import {
   LockOutlined,
   UserOutlined,
   ShareAltOutlined,
-  HomeOutlined
+  HomeOutlined,
+  DownOutlined
 } from "@ant-design/icons";
 
 import Register from "./Components/Register";
-import Login from "./Components/Login";
 import IdentityForm from "./Components/IdentityForm";
+import SharingPage from "./Components/SharingPage";
+import IdentitiesPage from "./Components/IdentitiesPage";
+import { checkToken } from "./Utils/ApiInterface";
 
 const { SubMenu } = Menu;
 
@@ -21,9 +24,20 @@ function App() {
   const [authenticated, setAuthenticated] = React.useState(false);
 
   const handleClick = e => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
+
+  React.useEffect(() => {
+    async function authenticate() {
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        const authenticationData = await checkToken(token);
+        console.log(authenticationData);
+        setAuthenticated(authenticationData);
+      }
+    }
+    authenticate();
+  }, []);
 
   return (
     <div className="App">
@@ -35,18 +49,37 @@ function App() {
               Home
             </Link>
           </Menu.Item>
-          <Menu.Item key="me">
-            <Link to="/me">
-              <UserOutlined />
-              My Identity
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="share">
-            <Link to="/share">
-              <ShareAltOutlined />
-              Share Identity
-            </Link>
-          </Menu.Item>
+          {localStorage.getItem("type") === "user" && (
+            <SubMenu
+              title={
+                <span className="submenu-title-wrapper">
+                  <DownOutlined />
+                  Identity Management
+                </span>
+              }
+            >
+              <Menu.Item key="me">
+                <Link to="/me">
+                  <UserOutlined />
+                  My Identity
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="share">
+                <Link to="/share">
+                  <ShareAltOutlined />
+                  Share Identity
+                </Link>
+              </Menu.Item>
+            </SubMenu>
+          )}
+          {localStorage.getItem("type") === "company" && (
+            <Menu.Item key="identities">
+              <Link to="/identities">
+                <UserOutlined />
+                Identities
+              </Link>
+            </Menu.Item>
+          )}
           <SubMenu
             title={
               <span className="submenu-title-wrapper">
@@ -57,17 +90,21 @@ function App() {
           >
             {authenticated ? (
               <Menu.ItemGroup>
-                <Link to="/logout">
-                  <Menu.Item key="setting:1">Log Out</Menu.Item>
-                </Link>
+                <Menu.Item
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("type");
+                    window.location.replace("/");
+                  }}
+                  key="setting:1"
+                >
+                  Log Out
+                </Menu.Item>
               </Menu.ItemGroup>
             ) : (
               <Menu.ItemGroup>
                 <Menu.Item key="setting:1">
                   <Link to="/register">Register</Link>
-                </Menu.Item>
-                <Menu.Item key="setting:2">
-                  <Link to="/login">Log In </Link>
                 </Menu.Item>
               </Menu.ItemGroup>
             )}
@@ -77,12 +114,14 @@ function App() {
           <Route path="/me">
             <IdentityForm />
           </Route>
-          <Route path="/share">share</Route>
-          <Route path="/login">
-            <Login />
+          <Route path="/share">
+            <SharingPage />
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/identities">
+            <IdentitiesPage />
           </Route>
           <Route path="/">home</Route>
         </Switch>

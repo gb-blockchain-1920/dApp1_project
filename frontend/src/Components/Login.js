@@ -13,7 +13,11 @@ const tailLayout = {
 
 export default function Login() {
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
+
+  const submit = async () => {
+    const response = await logIn(username, password);
+  };
 
   return (
     <Row style={{ padding: "20px" }}>
@@ -22,22 +26,21 @@ export default function Login() {
           {...layout}
           name="basic"
           initialValues={{ remember: true }}
-          //   onFinish={onFinish}
+          onFinish={submit}
           //   onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Email"
-            name="email"
-            value={email}
+            label="Username"
+            name="username"
+            value={username}
             rules={[
               {
-                type: "email",
                 required: true,
-                message: "Please input your email!"
+                message: "Please input your username!"
               }
             ]}
           >
-            <Input onChange={e => setEmail(e.target.value)} />
+            <Input onChange={e => setUsername(e.target.value)} />
           </Form.Item>
           <Form.Item
             label="Password"

@@ -1,21 +1,65 @@
 const axios = require("axios");
-const apiUrl = "";
+const apiUrl = "http://35.193.103.180:3000";
 
-export const registerUser = (email, password, type) => {
+const appendToken = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+  }
+};
+
+exports.registerUser = (username, password, type) => {
   return new Promise(async (res, rej) => {
-    axios.post(apiUrl + "/register", {
-      email,
-      password,
-      type
+    const response = await axios.post(apiUrl + "/login", {
+      username: username,
+      password: password,
+      type: type
     });
+    res(response.data);
   });
 };
 
-export const logIn = (email, password) => {
+exports.checkToken = token => {
   return new Promise(async (res, rej) => {
-    axios.post(apiUrl + "/login", {
-      email,
-      password
+    appendToken();
+    const response = await axios.get(apiUrl + "/login");
+    console.log(response);
+    res(response.data);
+  });
+};
+
+exports.submitIdentity = (
+  firstName,
+  lastName,
+  birthDate,
+  income,
+  passportNumber
+) => {
+  return new Promise(async (res, rej) => {
+    const response = await axios.post(apiUrl + "/user", {
+      firstName: firstName,
+      lastName: lastName,
+      birthDate: birthDate,
+      income: income,
+      passportNumber: passportNumber
     });
+
+    console.log(response);
+  });
+};
+
+exports.getCompanies = () => {
+  return new Promise(async (res, rej) => {
+    appendToken();
+    const response = await axios.get(apiUrl + "/approve");
+    res(response);
+  });
+};
+
+exports.approveCompany = id => {
+  return new Promise(async (res, rej) => {
+    appendToken();
+    const response = await axios.post(apiUrl + "/approve", { companyId: id });
+    res(response);
   });
 };
