@@ -3,7 +3,7 @@ var crypto = require("crypto");
 var env = require("./env");
 
 module.exports.decodeToken = authHeader => {
-  const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ").slice(-1)[0];
   return jwt.verify(token, env.jwtKey);
 };
 
