@@ -4,31 +4,30 @@ const apiUrl = "http://35.193.103.180:3000";
 exports.registerUser = (username, password, type) => {
 	return new Promise(async (res, rej) => {
 		const response = await axios.post(apiUrl + "/login", {
-			username,
-			password,
-			type
+			username: username,
+			password: password,
+			type: type
 		});
-
-		console.log(response);
+		res(response.data);
 	});
 };
 
-exports.logIn = (email, password) => {
+exports.checkToken = (token) => {
 	return new Promise(async (res, rej) => {
-		axios.get(apiUrl + "/login", {
-			email,
-			password
+		const response = await axios.get(apiUrl + "/login", {
+			token: token
 		});
+		res(response.data);
 	});
 };
 
-exports.checkToken = token => {
-	return new Promise(async (res, rej) => {
-		axios.post(apiUrl + "/checkToken", {
-			token
-		});
-	});
-};
+// exports.checkToken = token => {
+// 	return new Promise(async (res, rej) => {
+// 		axios.post(apiUrl + "/checkToken", {
+// 			token
+// 		});
+// 	});
+// };
 
 exports.submitIdentity = (
 	firstName,

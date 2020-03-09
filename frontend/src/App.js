@@ -27,13 +27,15 @@ function App() {
 		setCurrent(e.key);
 	};
 
-	React.useEffect(async () => {
-		const token = localStorage.getItem("token");
-		if (token == null) {
-			const authenticationData = await checkToken(token);
-			setAuthenticated(authenticationData);
+	React.useEffect(() => {
+		async function authenticate() {
+			const token = localStorage.getItem("token");
+			if (token !== null) {
+				const authenticationData = await checkToken(token);
+				setAuthenticated(authenticationData);
+			}
 		}
-		return () => {};
+		authenticate();
 	}, []);
 
 	return (
@@ -98,15 +100,15 @@ function App() {
 								</Menu.Item>
 							</Menu.ItemGroup>
 						) : (
-							<Menu.ItemGroup>
-								<Menu.Item key="setting:1">
-									<Link to="/register">Register</Link>
-								</Menu.Item>
-								<Menu.Item key="setting:2">
-									<Link to="/login">Log In </Link>
-								</Menu.Item>
-							</Menu.ItemGroup>
-						)}
+								<Menu.ItemGroup>
+									<Menu.Item key="setting:1">
+										<Link to="/register">Register</Link>
+									</Menu.Item>
+									<Menu.Item key="setting:2">
+										<Link to="/login">Log In </Link>
+									</Menu.Item>
+								</Menu.ItemGroup>
+							)}
 					</SubMenu>
 				</Menu>
 				<Switch>
