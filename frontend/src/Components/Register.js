@@ -12,9 +12,14 @@ export default function Register() {
       <Col span={10}>
         {" "}
         <Typography>
-          <Title>Registration</Title>
+          <Title>Authentication</Title>
           <Paragraph>
-            You can register to use the KYC servide here. You can either
+            The KYC service uses a form of authentication that does not require
+            you to register. You can consider your username and password
+            combination the "private key" to your identity.
+          </Paragraph>
+          <Paragraph>
+            You can authenticate to use the KYC service here. You can either
             register as a company or a person, the differences between them are
             outlined below.
           </Paragraph>
