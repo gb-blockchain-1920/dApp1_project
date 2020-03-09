@@ -28,8 +28,8 @@ router.get("/", async function(req, res) {
     for (let i = 0; i < relations.length; i++) {
       const data =  await functions.query("mychannel", "eKYC", ["getData", relations[i].toString()])
       const temp = JSON.parse(data.userDetails)
-      const userDetails = Object.keys(temp)
-      userData.push(JSON.parse(userDetails[0]))
+      const userDetails = Object.keys(temp).length === 1 ? JSON.parse(Object.keys(temp)) : temp
+      userData.push(userDetails)
     }
 
     res.send(userData);
