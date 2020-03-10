@@ -46,8 +46,8 @@ router.get("/", async function(req, res) {
       // const trimLength = (id.length - 192)/2
       // id = id.length > 192 ? id.slice(trimLength, id.length-trimLength) : id;
       id = id.replace("\'","")
-      let username = functions.decodeId(id);
-      return {username: JSON.parse(JSON.parse(decoded)).username, id};
+      let decoded = functions.decodeId(id);
+      return {username: JSON.parse(decoded).username, id};
     });
 
     const parsedCompanies = companies.list.map(id => {
