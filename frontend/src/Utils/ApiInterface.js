@@ -23,7 +23,6 @@ exports.checkToken = token => {
   return new Promise(async (res, rej) => {
     appendToken();
     const response = await axios.get(apiUrl + "/login");
-    console.log(response);
     res(response.data);
   });
 };
@@ -43,8 +42,6 @@ exports.submitIdentity = (
       income: income,
       passportNumber: passportNumber
     });
-
-    console.log(response);
   });
 };
 
@@ -60,6 +57,14 @@ exports.approveCompany = id => {
   return new Promise(async (res, rej) => {
     appendToken();
     const response = await axios.post(apiUrl + "/approve", { companyId: id });
+    res(response);
+  });
+};
+
+exports.getApprovedUsers = () => {
+  return new Promise(async (res, rej) => {
+    appendToken();
+    const response = await axios.get(apiUrl + "/corporate");
     res(response);
   });
 };
