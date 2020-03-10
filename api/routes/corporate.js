@@ -26,10 +26,14 @@ router.get("/", async function(req, res) {
     //get array of user information
     let userData = [];
     for (let i = 0; i < relations.length; i++) {
-      const data =  await functions.query("mychannel", "eKYC", ["getData", relations[i].toString()])
-      const temp = JSON.parse(data.userDetails)
-      const userDetails = Object.keys(temp).length === 1 ? JSON.parse(Object.keys(temp)) : temp
-      userData.push(userDetails)
+      try {
+        const data =  await functions.query("mychannel", "eKYC", ["getData", relations[i].toString()])
+        const temp = JSON.parse(data.userDetails)
+        const userDetails = Object.keys(temp).length === 1 ? JSON.parse(Object.keys(temp)) : temp
+        userData.push(userDetails)
+      } catch (e) {
+        console.log("information requested for user that doesn't exist")
+      }
     }
 
     res.send(userData);
