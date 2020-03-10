@@ -17,6 +17,7 @@ const columns = [
       return (
         <Switch
           defaultChecked={record.approved}
+          disabled={record.approved}
           onChange={() => handleChange(record.id)}
         />
       );
@@ -36,9 +37,14 @@ export default function SharingPage() {
   React.useEffect(() => {
     async function getData() {
       const response = await getCompanies();
-      response.data.all.map(val => {
-        val.approved = false;
+      const approved = [];
+      response.data.approved.forEach(element => {
+        approved.push(element.id);
       });
+      response.data.all.map(val => {
+        val.approved = approved.includes(val.id);
+      });
+      console.log(response.data.all);
       setCompanies(response.data.all);
       setApprovedCompanies(response.data.approved);
     }
@@ -48,7 +54,7 @@ export default function SharingPage() {
   return (
     <Row gutter={10} style={{ padding: "20px" }}>
       <Col span={24}>
-        <Table dataSource={companies} columns={columns} />;
+        <Table dataSource={companies} columns={columns} />
       </Col>
     </Row>
   );
